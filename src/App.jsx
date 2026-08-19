@@ -5,29 +5,43 @@ import AddButton from "./Components/AddButton";
 import { themeContext } from "./ThemeContext";
 import useToggle from "./Custom hooks/useToggle";
 import { TaskContext } from "./TaskContext";
+import Form from "./Components/Form";
+import ClearPopUp from "./Components/ClearPopUp";
 
 const App = () => {
   const [theme, toggleTheme] = useToggle("light");
+  const [isFormActive, setIsFormActive] = useState(false);
+  const [isClearActive, setisClearActive] = useState(false);
+
   const [Tasks, setTasks] = useState([
     {
-      todo: "Do Binary Trees Questions",
+      todo: "abcd1",
       priority: "high",
-      deadLine: new Date(2026, 8, 1),
+      deadline:"2026-10-12",
+      done: false,
+    },
+    {
+      todo: "abcd2",
+      priority: "high",
+      deadline: "2026-10-12",
+      done: false,
     },
   ]);
 
   return (
-    <div
-      className={`h-screen w-full flex flex-col relative ${theme == "dark" && "bg-black"}`}
+    <TaskContext.Provider
+      value={{ Tasks, setTasks, isFormActive, setIsFormActive ,isClearActive, setisClearActive}}
     >
-      <TaskContext.Provider value={{ Tasks, setTasks }}>
-        <themeContext.Provider value={{ theme, toggleTheme }}>
-          <Header />
-          <TodoContainer />
-          <AddButton />
-        </themeContext.Provider>
-      </TaskContext.Provider>
-    </div>
+      <div
+        className={`h-screen w-full flex flex-col relative ${theme == "dark" && "bg-black"}  `}
+      >
+        <Header />
+        <TodoContainer />
+        <ClearPopUp />
+        <Form />
+        <AddButton />
+      </div>
+    </TaskContext.Provider>
   );
 };
 
