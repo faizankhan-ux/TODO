@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import TodoContainer from "./Components/TodoContainer";
 import AddButton from "./Components/AddButton";
@@ -9,24 +9,48 @@ import Form from "./Components/Form";
 import ClearPopUp from "./Components/ClearPopUp";
 
 const App = () => {
-  const [theme, toggleTheme] = useToggle("light");
+  const [theme, toggleTheme , updatTheme] = useToggle("light");
   const [isFormActive, setIsFormActive] = useState(false);
   const [isClearActive, setisClearActive] = useState(false);
 
+
+
   const [Tasks, setTasks] = useState([
-    {
-      todo: "abcd1",
-      priority: "high",
-      deadline: "2026-10-12",
-      done: false,
-    },
-    {
-      todo: "abcd2",
-      priority: "high",
-      deadline: "2026-10-12",
-      done: false,
-    },
+   
   ]);
+
+
+  //SAVE TO LOCAL STORAGE
+  function saveToLocalStorage(){
+    localStorage.clear()
+    let CurrTasks = Tasks;
+    let CurrTheme = theme;
+
+    let data = {
+      Tasks : CurrTasks,
+      theme : CurrTheme
+    }
+    
+    localStorage.setItem("TodoData" , JSON.stringify(data))
+  }
+
+  function loadFromLocalStorage(){
+    let obj = JSON.parse(localStorage.getItem("TodoData"))
+    if(obj == null) return
+
+    let {Tasks , theme} = obj;
+    
+   
+
+    updatTheme(theme)
+    setTasks(Tasks)
+    
+  }
+
+  useEffect(loadFromLocalStorage ,[])
+
+
+  useEffect(saveToLocalStorage , [Tasks , theme])
 
   return (
     <themeContext.Provider value={{theme,toggleTheme}}>
@@ -48,6 +72,8 @@ const App = () => {
           <ClearPopUp />
           <Form />
           <AddButton />
+
+          
         </div>
       </TaskContext.Provider>
     </themeContext.Provider>

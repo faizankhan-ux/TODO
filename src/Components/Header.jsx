@@ -4,8 +4,6 @@ import { TaskContext } from "../TaskContext";
 import { themeContext } from "../ThemeContext";
 
 const Header = () => {
- 
-
   const { theme, toggleTheme } = useContext(themeContext);
   const { setisClearActive } = useContext(TaskContext);
 
@@ -13,9 +11,8 @@ const Header = () => {
     setisClearActive(true);
   }
 
-  function handleTheme(){
-    
-    toggleTheme()
+  function handleTheme() {
+    toggleTheme();
   }
 
   return (
@@ -26,20 +23,20 @@ const Header = () => {
           alt="profile pic"
           className="h-15 aspect-square bg-cover rounded-full"
         />
-        <h2 className="text-lg font-bold">Username</h2>
+        <h2 className="text-lg font-bold font-mono">Faizan Khan</h2>
       </div>
 
       <div className="h-full w-1/3 bg-red-400 flex items-center justify-evenly *:hover:cursor-pointer">
-        <div
-        onClick={handleTheme}
-        >
+        <div onClick={handleTheme}>
           {theme == "dark" ? (
             <Sun className=" hover:text-[lightseagreen]" />
           ) : (
             <Moon className=" hover:text-[lightseagreen]" />
           )}
         </div>
+
         <Eraser
+          title="hello"
           onClick={openClearAllpopup}
           className=" hover:text-[lightseagreen] hover:text-shadow-[0px_0px_30px] "
         />

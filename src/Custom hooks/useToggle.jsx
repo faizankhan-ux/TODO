@@ -11,7 +11,11 @@ function useToggle(inititalVal = "light") {
         })
     }
 
-  return [theme , Toggle]
+    function updateTheme(PrevTheme){
+        settheme(PrevTheme)
+    }
+
+  return [theme , Toggle ,updateTheme]
 }
 
 export default useToggle

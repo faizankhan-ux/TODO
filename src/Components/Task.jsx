@@ -1,4 +1,4 @@
-import { CheckCheck, Trash } from "lucide-react";
+import { Ban, CheckCheck, Trash } from "lucide-react";
 import React, { useContext, useState } from "react";
 import { TaskContext } from "../TaskContext";
 import { motion } from "motion/react";
@@ -7,8 +7,8 @@ import { themeContext } from "../ThemeContext";
 const Task = ({ index, todo, priority, deadLine, done }) => {
   const { Tasks, setTasks } = useContext(TaskContext);
   let days = calculateDaysRemaining();
-  const [doneStatus, setdoneStatus] = useState(done);
-  const { theme , setTheme} = useContext(themeContext);
+ 
+  const { theme } = useContext(themeContext);
 
   
   function calculateDaysRemaining() {
@@ -23,25 +23,34 @@ const Task = ({ index, todo, priority, deadLine, done }) => {
   }
 
   function taskDone() {
-    console.log("clickedf");
-    setdoneStatus(!doneStatus);
+    
+   
+    let tasks = Tasks.map((elem , idx) => {
+      if(index == idx){
+        elem.done = !elem.done
+      }
+      return elem
+    })
+
+    setTasks(tasks)
+
   }
 
-  console.log(deadLine);
+  
   function deleteTask() {
     let modifiedList = Tasks;
     modifiedList = modifiedList.filter((elem, idx) => {
       return idx != index;
     });
     setTasks(modifiedList);
-    console.log("delete");
+    
   }
 
   return (
     <motion.div
       initial={{ x: -100 }}
       animate={{ x: 0 }}
-      className={`h-60 w-65 ${theme == 'dark' ? 'bg-[#222] text-white' : 'bg-white text-black'} shadow-[0px_0px_5px_0.1px_black] m-5 rounded-2xl p-3 flex flex-col justify-between `}
+      className={`h-60 w-65 ${theme == "dark" ? "bg-[#222] text-white" : "bg-white text-black"} shadow-[0px_0px_5px_0.1px_black] m-5 rounded-2xl p-3 flex flex-col justify-between `}
     >
       <div className=" tetx-center flex flex-col items-center justify-baseline ">
         <div className="h-7 w-full flex items-center justify-between ">
@@ -52,10 +61,13 @@ const Task = ({ index, todo, priority, deadLine, done }) => {
           </div>
 
           <div className="flex w-[25%] gap-2 items-center justify-between  ">
-            <CheckCheck
-              onClick={taskDone}
-              className="hover:text-green-400 cursor-pointer"
-            />
+            <div onClick={taskDone}>
+              {done ? (
+                <Ban className="hover:text-green-400 cursor-pointer" />
+              ) : (
+                <CheckCheck className="hover:text-green-400 cursor-pointer" />
+              )}
+            </div>
             <Trash
               onClick={deleteTask}
               className="hover:text-red-500 cursor-pointer"
@@ -63,7 +75,7 @@ const Task = ({ index, todo, priority, deadLine, done }) => {
           </div>
         </div>
         <div
-          className={`font-semibold text-xl mt-3 ${doneStatus && "line-through text-green-400"} `}
+          className={`font-semibold text-xl mt-3 ${done && "line-through text-green-400"} `}
         >
           {todo}
         </div>

@@ -1,14 +1,14 @@
 import { CirclePlus } from "lucide-react";
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import { themeContext } from "../ThemeContext";
 import { TaskContext } from "../TaskContext";
 
 const AddButton = () => {
-  let theme = useContext(themeContext);
+  const{ theme }= useContext(themeContext);
+  const isDark = theme === "dark";
 
-  const {  setIsFormActive } = useContext(TaskContext);
-
- 
+  const { setIsFormActive } = useContext(TaskContext);
+  
   function HandleClick() {
     setIsFormActive(true);
   }
@@ -16,17 +16,17 @@ const AddButton = () => {
   return (
     <div
       onClick={HandleClick}
-      className="h-13  text-xl bg-black text-white  flex p-2  rounded-full  gap-2 cursor-pointer border items-center fixed left-4 bottom-10  hover:opacity-80"
+      className={`h-13 flex items-center gap-2 rounded-full border p-2 text-xl fixed bottom-10 left-4 cursor-pointer hover:opacity-80 ${isDark ? "bg-black text-white" : "bg-white text-black"} `}
     >
       <CirclePlus
         size={35}
-        onMouseEnter={() => {
-          setExpand(true);
-        }}
-        onMouseLeave={() => setExpand(false)}
-        className="rounded-full  bg-white text-black "
+        className={`rounded-full ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
       />
-      <h2 className="mr-2 ">Add New Task</h2>
+      <h2
+        className={` mr-2  ${isDark ? "bg-black text-white" : "bg-white text-black"} `}
+      >
+        Add New Task
+      </h2>
     </div>
   );
 };
