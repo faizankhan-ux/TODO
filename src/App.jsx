@@ -17,7 +17,7 @@ const App = () => {
     {
       todo: "abcd1",
       priority: "high",
-      deadline:"2026-10-12",
+      deadline: "2026-10-12",
       done: false,
     },
     {
@@ -29,19 +29,28 @@ const App = () => {
   ]);
 
   return (
-    <TaskContext.Provider
-      value={{ Tasks, setTasks, isFormActive, setIsFormActive ,isClearActive, setisClearActive}}
-    >
-      <div
-        className={`h-screen w-full flex flex-col relative ${theme == "dark" && "bg-black"}  `}
+    <themeContext.Provider value={{theme,toggleTheme}}>
+      <TaskContext.Provider
+        value={{
+          Tasks,
+          setTasks,
+          isFormActive,
+          setIsFormActive,
+          isClearActive,
+          setisClearActive,
+        }}
       >
-        <Header />
-        <TodoContainer />
-        <ClearPopUp />
-        <Form />
-        <AddButton />
-      </div>
-    </TaskContext.Provider>
+        <div
+          className={`h-screen w-full flex flex-col relative ${theme == "dark" && "bg-[#222] text-white"}  `}
+        >
+          <Header />
+          <TodoContainer />
+          <ClearPopUp />
+          <Form />
+          <AddButton />
+        </div>
+      </TaskContext.Provider>
+    </themeContext.Provider>
   );
 };
 

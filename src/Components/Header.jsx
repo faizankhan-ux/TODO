@@ -1,16 +1,22 @@
-import { Eraser, Moon, Search } from "lucide-react";
+import { Eraser, Moon, Search, Sun } from "lucide-react";
 import React, { useContext, useState } from "react";
 import { TaskContext } from "../TaskContext";
+import { themeContext } from "../ThemeContext";
 
 const Header = () => {
-  const [searchBar, setsearchBar] = useState(true);
+ 
 
-  const {setisClearActive } = useContext(TaskContext);
+  const { theme, toggleTheme } = useContext(themeContext);
+  const { setisClearActive } = useContext(TaskContext);
 
-  function openClearAllpopup(){
-    setisClearActive(true)
+  function openClearAllpopup() {
+    setisClearActive(true);
   }
 
+  function handleTheme(){
+    
+    toggleTheme()
+  }
 
   return (
     <div className="h-20 flex items-center justify-between p-10 border mt-10 mx-10 rounded-full">
@@ -24,18 +30,15 @@ const Header = () => {
       </div>
 
       <div className="h-full w-1/3 bg-red-400 flex items-center justify-evenly *:hover:cursor-pointer">
-        <div className=" flex items-center  gap-1   ">
-          {searchBar && (
-            <input
-              type="text"
-              placeholder="Search something  . . ."
-              className="bg-[#dadada] text-center rounded-full h-10 border-none outline-0 "
-            />
+        <div
+        onClick={handleTheme}
+        >
+          {theme == "dark" ? (
+            <Sun className=" hover:text-[lightseagreen]" />
+          ) : (
+            <Moon className=" hover:text-[lightseagreen]" />
           )}
-
-          <Search className="mr-1 hover:text-[lightseagreen]" />
         </div>
-        <Moon className=" hover:text-[lightseagreen]" />
         <Eraser
           onClick={openClearAllpopup}
           className=" hover:text-[lightseagreen] hover:text-shadow-[0px_0px_30px] "
@@ -46,4 +49,3 @@ const Header = () => {
 };
 
 export default Header;
-

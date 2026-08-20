@@ -5,8 +5,9 @@ function useToggle(inititalVal = "light") {
     const [theme, settheme] = useState(inititalVal)
 
     function Toggle(){
+  
         settheme((prev) => {
-            prev = prev == "light" ? "dark" : "light"
+            return prev = ( prev == "light" )? "dark" : "light"
         })
     }
 
